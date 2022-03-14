@@ -11,9 +11,10 @@ class Game {
         this.round_num = len(deck);
         this.round_idx = 0;
         this.status = "running";
+        this.expression = "";
     }
 
-    getField() {
+    get field() {
         if (this.round_idx < this.round_num) {
             return this.deck[this.round_idx];
         } else {
@@ -22,7 +23,8 @@ class Game {
     }
 
     chooseCard(card_idx) {
-        card = this.deck[this.round_idx][card_idx];
+        card = this.field[card_idx];
+        this.expression += card;
     }
 }
 
