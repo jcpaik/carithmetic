@@ -1,7 +1,17 @@
 'use strict';
 
 function replaceOperator(str) {
-    return String(str).replace('*', '×').replace('/', '÷');
+    let nstr = String(str).replace('*', '×').replace('/', '÷');
+    return nstr;
+}
+
+function replaceCardOperator(str) {
+    let nstr = String(str).replace('*', '×').replace('/', '÷');
+    // TODO: take care of this ad-hoc removal of brackets
+    if (nstr.length > 0 && nstr[0] == '(') {
+        nstr = nstr.substring(1, nstr.length - 1);
+    }
+    return nstr.replace('=', '✔️');
 }
 
 class View {
@@ -51,7 +61,7 @@ class View {
             flexbox.className = "flexbox";
             const card = document.createElement('div');
             card.className = "card";
-            card.innerHTML = replaceOperator(c).replace('=', '✔️');
+            card.innerHTML = replaceCardOperator(c);
             flexbox.appendChild(card);
             this.cards.appendChild(flexbox);
             const cardOnclick = this.selectCard.bind(this);
@@ -72,7 +82,23 @@ const levels = [
         },
     },
     {
-        title: "2. 음수 곱하기 음수",
+        title: "2. 빼기",
+        deck: [[8, 4], ['-'], [2, '(-9)'], ['=']],
+        goal: {
+            description: "15 이상의 수를 만드세요",
+            check: x => x >= 15
+        },
+    },
+    {
+        title: "3. 더하기 또는 빼기",
+        deck: [[4, 2], ['+', '-'], [4, '(-3)'], ['+', '-'], [2, '(-5)'], ['=']],
+        goal: {
+            description: "13 이상의 수를 만드세요",
+            check: x => x >= 13
+        },
+    },
+    {
+        title: "4. 음수 곱하기 음수",
         deck: [[-5, 3], ['*'], [4, -6], ['=']],
         goal: {
             description: "20 이상의 수를 만드세요",
@@ -80,11 +106,11 @@ const levels = [
         },
     },
     {
-        title: "3. 음수 곱하기 음수 곱하기 음수?",
-        deck: [[-5, 3], ['*'], [4, -6], ['=']],
+        title: "5. 음수 곱하기 음수 곱하기 음수?",
+        deck: [['(-3)', 2], ['*'], [4, '(-3)'], ['*'], [5, '(-4)'], ['=']],
         goal: {
-            description: "20 이상의 수를 만드세요",
-            check: x => x >= 20
+            description: "45 초과의 수를 만드세요",
+            check: x => x > 45
         },
     },
 ];
