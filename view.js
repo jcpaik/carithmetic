@@ -1,5 +1,9 @@
 'use strict';
 
+function replaceOperator(str) {
+    return String(str).replace('*', '×').replace('/', '÷');
+}
+
 class View {
     constructor() {
         this.title = document.getElementById('title');
@@ -21,7 +25,7 @@ class View {
     updateStep() {
         if (this.game.status === Running) {
             this.drawCards(this.game.field);
-            this.equation.innerHTML = this.game.equation;
+            this.equation.innerHTML = replaceOperator(this.game.equation);
         } else if (this.game.status === Won) {
             this.equation.innerHTML = '이겼습니다!';
             if (this.onWon !== null) {
@@ -47,7 +51,7 @@ class View {
             flexbox.className = "flexbox";
             const card = document.createElement('div');
             card.className = "card";
-            card.innerHTML = c
+            card.innerHTML = replaceOperator(c).replace('=', '✔️');
             flexbox.appendChild(card);
             this.cards.appendChild(flexbox);
             const cardOnclick = this.selectCard.bind(this);

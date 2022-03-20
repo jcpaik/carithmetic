@@ -17,10 +17,6 @@ function isOperator(value) {
         "+-*/=".includes(value);
 }
 
-function replaceOperator(str) {
-    return str.replace('*', '×').replace('/', '÷');
-}
-
 const Running = Symbol("Game is running");
 const Won = Symbol("Game is finished, and user won");
 const Lost = Symbol("Game is finished, and user is lost");
