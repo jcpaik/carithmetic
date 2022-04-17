@@ -1,17 +1,17 @@
 'use strict';
 
 function replaceOperator(str) {
-    let nstr = String(str).replace('*', '×').replace('/', '÷');
+    let nstr = String(str).replaceAll('*', '×').replaceAll('/', '÷');
     return nstr;
 }
 
 function replaceCardOperator(str) {
-    let nstr = String(str).replace('*', '×').replace('/', '÷');
-    // TODO: take care of this ad-hoc removal of brackets
+    let nstr = String(str).replaceAll('*', '×').replaceAll('/', '÷');
+    // TODO: fix this ad-hoc removal of brackets
     if (nstr.length > 0 && nstr[0] == '(') {
         nstr = nstr.substring(1, nstr.length - 1);
     }
-    return nstr.replace('=', '✔️');
+    return nstr.replaceAll('=', '✔️');
 }
 
 class View {
@@ -19,6 +19,7 @@ class View {
         this.title = document.getElementById('title');
         this.objective = document.getElementById('objective');
         this.cards = document.getElementById('cards');
+        this.deck = document.getElementById('deck');
         this.equation = document.getElementById('equation');
 
         this.onWon = null;
