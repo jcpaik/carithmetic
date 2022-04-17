@@ -73,6 +73,8 @@ class View {
     }
 }
 
+// TODO: move to controller
+
 const levels = [
     {
         title: "1. 더하기",
@@ -114,9 +116,25 @@ const levels = [
             check: x => x > 45
         },
     },
+    {
+        title: "6. 사칙연산",
+        deck: [[5], ['+', '-', '*', '/'], ['(-4)'], ['+', '-'], [7], ['=']],
+        goal: {
+            description: "2를 만드세요",
+            check: x => x === 2
+        },
+    },
+    {
+        title: "7. 두뇌 풀 가동",
+        deck: [[4], ['+'], [2], ['*'], [4, 2], ['=']],
+        goal: {
+            description: "12를 만드세요",
+            check: x => x === 12
+        },
+    },
 ];
 
-let level = 0;
+let level = 5;
 const view = new View();
 view.loadLevel(levels[level]);
 
