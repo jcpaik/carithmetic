@@ -30,7 +30,16 @@ class View {
         this.game = new Game(level.deck, level.goal);
         this.title.innerHTML = level.title;
         this.objective.innerHTML = level.goal.description;
+        this.frozen = false; // freeze/unfreeze clickable buttons
         this.updateStep();
+    }
+
+    freeze() {
+        this.frozen = true;
+    }
+
+    unfreeze() {
+        this.frozen = false;
     }
 
     updateStep() {
@@ -38,12 +47,10 @@ class View {
             this.drawCards(this.game.field);
             this.equation.innerHTML = replaceOperator(this.game.equation);
         } else if (this.game.status === Won) {
-            this.equation.innerHTML = '이겼습니다!';
             if (this.onWon !== null) {
                 this.onWon();
             }
         } else if (this.game.status === Lost) {
-            this.equation.innerHTML = '다시!';
             if (this.onLost !== null) {
                 this.onLost();
             }
@@ -51,6 +58,9 @@ class View {
     }
 
     selectCard(i) {
+        if (this.frozen)
+            return;
+
         this.game.chooseCard(i);
         this.updateStep();
     }
@@ -118,7 +128,7 @@ const levels = [
     },
     {
         title: "6. 사칙연산",
-        deck: [[5], ['+', '-', '*', '/'], ['(-4)'], ['+', '-'], [7], ['=']],
+        deck: [[5], ['/', '*', '+', '-'], ['(-4)'], ['+', '-'], [7], ['=']],
         goal: {
             description: "2를 만드세요",
             check: x => x === 2
@@ -140,7 +150,9 @@ view.loadLevel(levels[level]);
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function onWon() {
-    await sleep(1200);
+    view.freeze();
+    this.equation.innerHTML = '이겼습니다!';
+    await sleep(1500);
     if (level < levels.length - 1) {
         level++;
         view.loadLevel(levels[level]);
@@ -149,7 +161,11 @@ async function onWon() {
     }
 }
 async function onLost() {
-    await sleep(1200);
+    view.freeze();
+    for (let i = 4; i > 0; i--) {
+        this.equation.innerHTML = '다시! ' + i + "...";
+        await sleep(1000);
+    }
     view.loadLevel(levels[level]);
 }
 view.onWon = onWon;
