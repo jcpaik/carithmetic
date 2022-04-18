@@ -8,7 +8,7 @@ function replaceOperator(str) {
 function replaceCardOperator(str) {
     let nstr = String(str).replaceAll('*', '×').replaceAll('/', '÷');
     // TODO: fix this ad-hoc removal of brackets
-    if (nstr.length > 0 && nstr[0] == '(') {
+    if (nstr.length > 2 && nstr[0] == '(') {
         nstr = nstr.substring(1, nstr.length - 1);
     }
     return nstr.replaceAll('=', '✔️');
@@ -142,9 +142,25 @@ const levels = [
             check: x => x === 12
         },
     },
+    {
+        title: "8. 괄호",
+        deck: [[4], ['+'], [2], ['()'], ['*'], [4, 2], ['=']],
+        goal: {
+            description: "12를 만드세요",
+            check: x => x === 12
+        },
+    },
+    {
+        title: "9. 신뢰의 도약",
+        deck: [[3], ['+', '-', '*', '/'], [8], ['+', '-', '*'], [3], ['()'], ['+', '-', '*', '/'], [8], ['=']],
+        goal: {
+            description: "27을 만드세요",
+            check: x => x === 27
+        },
+    },
 ];
 
-let level = 5;
+let level = 0;
 const view = new View();
 view.loadLevel(levels[level]);
 
@@ -152,7 +168,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 async function onWon() {
     view.freeze();
     this.equation.innerHTML = '이겼습니다!';
-    await sleep(1500);
+    await sleep(1200);
     if (level < levels.length - 1) {
         level++;
         view.loadLevel(levels[level]);

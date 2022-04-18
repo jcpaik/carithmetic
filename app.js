@@ -82,9 +82,11 @@ class Game {
         if (card === "=") {
             this._onGameEnd();
             return;
+        } else if (card == "()") {
+            this.expression = "(" + this.expression + ")";
+        } else { // All arithmetic operators / numbers
+            this.expression += card;
         }
-
-        this.expression += card;
         this.round_idx++;
     }
 }
