@@ -43,6 +43,7 @@ class View {
     }
 
     updateStep() {
+        this.drawDeck();
         if (this.game.status === Running) {
             this.drawCards(this.game.field);
             this.equation.innerHTML = replaceOperator(this.game.equation);
@@ -80,6 +81,23 @@ class View {
                 cardOnclick(i);
             }
         });
+    }
+
+    drawDeck() {
+        // TODO: Is it really the duty of view
+        let s = "";
+        for (let i = 0; i < this.game.round_num; i++) {
+            if (i > 0) {
+                s += " / "
+            }
+            let r = this.game.deck[i].map(replaceCardOperator).join(", ")
+            if (i == this.game.round_idx) {
+                r = "<b>" + r + "</b>"
+            }
+            s += r
+        }
+
+        this.deck.innerHTML = s;
     }
 }
 
